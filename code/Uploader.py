@@ -22,6 +22,9 @@ with FTP() as ftp:
     try:
         ftp.connect(host=HOST, port=PORT)
         ftp.login(user='sarthaknarayan', passwd='789456')
+
+        # assuming that you have directory named podcasts
+        # If not then you can create one or provide the name of an existing directory
         ftp.cwd('Podcasts')
         logger.info("Changed Directory to Podcasts, Starting Upload")
         with open(filename, "rb") as file:
