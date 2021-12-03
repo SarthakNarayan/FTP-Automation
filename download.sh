@@ -12,20 +12,26 @@ fi
 echo -e "\nFTP server is up downloading the video"
 echo -e "--------------------------------------------------------- \n[`date`]" >> ./logs/download.log
 # yt-dlp -x --restrict-filenames --no-progress -o '%(title)s.%(ext)s' $1 &>> ./logs/download.log
-# only record the errors
+# only record the errors and display the progress bar
 yt-dlp -x --restrict-filenames -o '%(title)s.%(ext)s' $1 2>> ./logs/download.log
-audio_file=`ls | grep .opus || ls | grep .mp3 || ls | grep .mp4`
+
+if [ $? -eq 1 ]; then
+    echo -e "\nSome error has occured while downloading the video refer download logs"
+    exit 1
+fi
+
+audio_file=`ls | grep .opus || ls | grep .mp3 || ls | grep .mp4 || ls | grep .m4a`
+if [ -z $audio_file ]; then
+    echo "Variable audio_file is empty, this may be due to unknown audio format. Please remove the downloaded video"
+    exit 1
+fi
+
 video_name="${audio_file%%.*}" #get the name of the video
 echo "Video: $video_name" >> ./logs/download.log
 if [ $? -eq 0 ]; then
     echo -e "\nNo errors occured while downloading the video" >> ./logs/download.log
 fi
 echo -e "--------------------------------------------------------- \n" >> ./logs/download.log
-
-if [ -z $audio_file ]; then
-    echo "Some error occurred while downloading the file, please check the downloader or the download link"
-    exit 1
-fi
 
 echo -e "Video successfully downloaded \n"
 
