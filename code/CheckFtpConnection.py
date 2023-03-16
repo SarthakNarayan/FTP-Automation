@@ -1,21 +1,18 @@
 from ftplib import FTP
 import sys
 from logger import Logging
+from config import USERNAME, PASSWORD, PORT, IP, LOGGING_LOCATION
 
 # initializing the Logger class
-loggerObject = Logging(
-    filename="/home/sarthaknarayan/youtube-dl/logs/logging.log")
+loggerObject = Logging(filename=LOGGING_LOCATION)
 logger = loggerObject.logger
-
-HOST = '192.168.1.35'
-PORT = 2221
 
 with FTP() as ftp:
     try:
-        ftp.connect(host=HOST, port=PORT)
+        ftp.connect(host=IP, port=PORT)
         logger.info("----------------------------")
         logger.info("Connection Successfull")
-        ftp.login(user='sarthaknarayan', passwd='789456')
+        ftp.login(user=USERNAME, passwd=PASSWORD)
         logger.info("Authentication Successfull")
     except Exception as e:
         logger.info("----------------------------")

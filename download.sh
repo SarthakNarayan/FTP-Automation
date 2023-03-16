@@ -2,8 +2,10 @@
 
 [ -z $1 ] && echo "No video link given, please give a video link" && exit 1
 
+mkdir -p logs
+
 echo "Checking If the FTP server is UP"
-python3 /home/sarthaknarayan/youtube-dl/code/CheckFtpConnection.py
+python3 code/CheckFtpConnection.py
 if [ $? -eq 1 ]; then
     echo "FTP server is down please try again after restarting the server"
     exit 1
@@ -56,7 +58,7 @@ echo -e "Duration of the converted video \n `ffmpeg -i $converted_audio_file 2>&
 
 echo -e "\nAudio converision complete \nStarting upload"
 
-python3 /home/sarthaknarayan/youtube-dl/code/Uploader.py --file $converted_audio_file
+python3 code/Uploader.py --file $converted_audio_file
 
 if [ $? -eq 1 ]; then
     echo "Some error occurred while transferring the file, please check logs"
