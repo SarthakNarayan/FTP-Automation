@@ -1,2 +1,7 @@
 logs
 __pycache__
+*.txt
+recordings
+.DS_Store
+*.opus
+*.mp3
